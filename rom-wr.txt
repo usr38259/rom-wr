@@ -1,0 +1,32 @@
+
+Port configuring:
+mode COM7:116820,N,8,1
+mode COM7: BAUD=116820 PARITY=N DATA=8 STOP=1 TO=OFF DTR=ON RTS=ON
+mode COM7: BAUD=116820 PARITY=N DATA=8 STOP=1 DTR=ON
+
+Protocol:
+ready:
+<-- 55 00
+
+write (01):
+--> 01
+<-- 00 - ok; 02 - error; 03 - cancel
+--> addr lo
+--> addr hi
+--> byte
+<-- addr lo (echo)
+<-- addr hi
+<-- byte
+--> byte (repeat)
+<-- 00 - ok; 01 - fail;
+case 00 - ok:
+	<-- byte read
+	<-- n tries
+case 01 - fail:
+	<-- byte read
+	<-- n tries
+case 02: waitc
+case 03: waitc
+
+Used documents:
+ST M27C512 - 512 Kbit (64K x8) UV EPROM and OTP EPROM
